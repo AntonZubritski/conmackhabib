@@ -1,0 +1,34 @@
+.text-xs-center {
+    text-align: center!important;
+}
+.error-messages {
+    color: #b85c5c!important;
+    font-weight: 700;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #7a4ba1;
+    border-color: #7a4ba1;
+}
+.btn-primary:focus {
+    color: #fff;
+    background-color: #5a3677;
+    border-color: #5a3677;
+    box-shadow: 0 0 0 0 #5a3677;
+}
+.btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #7a4ba1;
+    border-color: #7a4ba1;
+}
+.btn-outline-danger {
+    color: #b85c5c;
+    background-image: none;
+    background-color: transparent;
+    border-color: #b85c5c !important;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #5a3677;
+    border-color: #5a3677;
+}

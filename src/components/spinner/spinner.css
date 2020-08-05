@@ -1,0 +1,7 @@
+.image-loader {
+  background-image: url(https://i.ibb.co/4FZ8Rtd/loader.gif) no-repeat;
+  width: 100px;
+}
+.spinner {
+  padding-top: 200px;
+}

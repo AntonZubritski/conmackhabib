@@ -1,0 +1,88 @@
+.profile-page .user-info {
+    text-align: center;
+    background: #f3f3f3;
+    padding: 2rem 0 1rem;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.profile-page .user-info {
+    text-align: center;
+    background: #f3f3f3;
+    padding: 2rem 0 1rem;
+}
+.btn-outline-secondary {
+    color: #ccc;
+    background-image: none;
+    background-color: transparent;
+    border-color: #ccc;
+}
+.btn-sm, .btn-group-sm>.btn {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
+}
+.profile-page .articles-toggle {
+    margin: 1.5rem 0 -1px;
+}
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-pills::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.profile-page .user-info .action-btn {
+    float: right;
+    color: #999;
+    border: 1px solid #999;
+}
+.profile-page .user-info .user-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+}
+.btn-secondary {
+    color: #373a3c;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-secondary:hover {
+    color: #373a3c;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+.btn-secondary:hover  .fa-plus-circle {
+    color:#7a4ba1 ;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-secondary.dropdown-toggle:focus { 
+    color: #fff;
+    background-color: rgba(0,0,0,.075);
+    border-color: #4b047a5d;
+    outline: 0;
+    box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.13);
+}
+
+.btn-secondary:not(:disabled):not(.disabled):focus{
+    box-shadow: none;
+    background-color: rgba(0,0,0,.075);
+    border-color: #997bad5d;
+    box-shadow: 0 0 0 0 rgba(130,138,145,.5);
+}
+
