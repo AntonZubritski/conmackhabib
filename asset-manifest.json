@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/conmackhabib/static/css/main.537ffd2f.chunk.css",
-    "main.js": "/conmackhabib/static/js/main.793ae5e2.chunk.js",
-    "main.js.map": "/conmackhabib/static/js/main.793ae5e2.chunk.js.map",
+    "main.css": "/conmackhabib/static/css/main.12f6b398.chunk.css",
+    "main.js": "/conmackhabib/static/js/main.97851cc8.chunk.js",
+    "main.js.map": "/conmackhabib/static/js/main.97851cc8.chunk.js.map",
     "runtime-main.js": "/conmackhabib/static/js/runtime-main.a1f8fd10.js",
     "runtime-main.js.map": "/conmackhabib/static/js/runtime-main.a1f8fd10.js.map",
     "static/js/2.09604eb3.chunk.js": "/conmackhabib/static/js/2.09604eb3.chunk.js",
     "static/js/2.09604eb3.chunk.js.map": "/conmackhabib/static/js/2.09604eb3.chunk.js.map",
     "index.html": "/conmackhabib/index.html",
-    "precache-manifest.c7889245d6a2a6650007162ece654c50.js": "/conmackhabib/precache-manifest.c7889245d6a2a6650007162ece654c50.js",
+    "precache-manifest.4f92a953b11d54dadffb4ba625b9b13d.js": "/conmackhabib/precache-manifest.4f92a953b11d54dadffb4ba625b9b13d.js",
     "service-worker.js": "/conmackhabib/service-worker.js",
-    "static/css/main.537ffd2f.chunk.css.map": "/conmackhabib/static/css/main.537ffd2f.chunk.css.map",
+    "static/css/main.12f6b398.chunk.css.map": "/conmackhabib/static/css/main.12f6b398.chunk.css.map",
     "static/js/2.09604eb3.chunk.js.LICENSE.txt": "/conmackhabib/static/js/2.09604eb3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a1f8fd10.js",
     "static/js/2.09604eb3.chunk.js",
-    "static/css/main.537ffd2f.chunk.css",
-    "static/js/main.793ae5e2.chunk.js"
+    "static/css/main.12f6b398.chunk.css",
+    "static/js/main.97851cc8.chunk.js"
   ]
 }
