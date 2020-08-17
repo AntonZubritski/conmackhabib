@@ -16,7 +16,8 @@ class Comments extends Component {
   }
 
   handleKeyPress = (e) => {
-    if (e.charCode === 13) {
+    const { textComment } = this.props.profilePage
+    if (e.charCode === 13 && !textComment.trim() === false) {
       e.preventDefault()
       this.postCommentRef.dispatchEvent(new Event('submit'))
     }
@@ -24,7 +25,7 @@ class Comments extends Component {
 
   render() {
     const { comments, textComment } = this.props.profilePage
-    const { image, username } = this.props.registerPage
+    const { image, username, token } = this.props.registerPage
 
     // --------------------COMMENTS MAP--------------------
     const comment = comments.map((comment, key) => {
@@ -33,7 +34,7 @@ class Comments extends Component {
       const delComment = () => {
         const { idArticle } = this.props.match.params
         const newComments = [].concat(comments)
-        newComments.splice(key, 1) // попробовать filter
+        newComments.splice(key, 1)
         this.props.DeleteComment(idArticle, id, newComments)
       }
       const trashIcon = (
@@ -96,6 +97,7 @@ class Comments extends Component {
                     onKeyPress={this.handleKeyPress}
                     value={textComment}
                     rows="4"
+                    required
                   ></textarea>
                 </div>
                 <div className="card-footer">
@@ -122,7 +124,7 @@ class Comments extends Component {
       this.props.profilePage.comments !== [] ? comment : null // проверить - упростить
     return (
       <Fragment>
-        {postForm}
+        {token ? postForm : null}
         <div className="container bounceInUp2">{commentsInner}</div>
       </Fragment>
     )

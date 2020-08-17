@@ -32,6 +32,7 @@ export default class ApiServices {
   }
   //-------------Template for fetchApi END
   fetchApi = {
+    
     favorite: (userId, favorited) =>
       this.templateFetch(
         `${this._urlBase}/articles/${userId}/favorite`,

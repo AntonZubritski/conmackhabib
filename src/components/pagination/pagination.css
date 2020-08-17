@@ -12,6 +12,7 @@
     margin-left: 0;
     border-bottom-left-radius: .25rem;
     border-top-left-radius: .25rem;
+    width: 17px;
 }
 .page-item.active .page-link, .page-item.active .page-link:focus, .page-item.active .page-link:hover {
     z-index: 2;
@@ -20,12 +21,10 @@
     background-color: #7a4ba1;
     border-color: #7a4ba1;
 }
-.page-link[_ngcontent-c1] {
-    cursor: pointer;
-}
 a:not([href]) {
     color: inherit;
     text-decoration: none;
+    width: 18px;
 }
 .page-link {
     position: relative;
@@ -36,6 +35,7 @@ a:not([href]) {
     text-decoration: none;
     background-color: #fff;
     border: 1px solid #ddd;
+    width: 18px;
 }
 a, area, button, [role=button], input, label, select, summary, textarea {
     touch-action: manipulation;

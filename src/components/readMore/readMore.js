@@ -28,6 +28,7 @@ class ReadMore extends Component {
   }
 
   render() {
+    const { token } = this.props.registerPage
     const { registerPage } = this.props
     const {
       bio,
@@ -117,7 +118,7 @@ class ReadMore extends Component {
     const containerPage = (
       <div className="container comment">
         <div className="bounceInUp1">
-          <div className="btn-group-deled">{btn}</div>
+          <div className="btn-group-deled">{token ? btn : null}</div>
           <hr />
           <div className="title-article">
             <h1>{title}</h1>

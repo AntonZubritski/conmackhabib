@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import './lineFeed.css'
 
@@ -7,95 +7,97 @@ class LineFeed extends Component {
     const { params } = this.props
     return params.feed === name ? 'nav-link active' : 'nav-link'
   }
+  checkTokenYourfeed = () => {
+    const { DelArticles, token } = this.props
+    if (token === true) {
+      DelArticles()
+    } else if (!token) {
+      return null
+    }
+  }
+  checkTokenNavlink = feed =>  this.props.token ? "/home/yourfeed/1" : `/home/${this.props.params.feed}/1`
 
   render() {
-    const { articlesApi, params, UpdateArticlesApi, DelArticles } = this.props
-
+    const { userName, feed} = this.props.params
+    
     const tagFragment = (
       <li className="nav-item">
         <input
           type="button"
-          className={this.feedClassName(articlesApi)}
-          name={articlesApi}
-          value={`#${articlesApi}`}
+          className={this.feedClassName(feed)}
+          name={feed}
+          value={`#${feed}`}
         />
       </li>
     )
 
-    const innerTag =
-      articlesApi === 'globalfeed' ||
-      articlesApi === 'yourfeed' ||
-      articlesApi === 'mypost' ||
-      articlesApi === 'favor'
-        ? null
-        : tagFragment
+    const arrFeed = ['globalfeed', 'yourfeed', 'mypost', 'favor']
 
+    const innerTag = () => {
+      const tag = arrFeed.indexOf(feed) > -1
+      return !tag ? tagFragment : null
+    }
+
+    const yourfeed = (
+      <li className="nav-item">
+      <NavLink to="/home/yourfeed/1">
+        <input
+          type="button"
+          className={this.feedClassName('yourfeed')}
+          value="Your Feed"
+        />
+      </NavLink>
+    </li>
+    )
     const homeFeed = (
-      <ul className="nav nav-pills">
-        <li className="nav-item">
-          <NavLink to="/home/yourfeed/1">
-            <input
-              type="button"
-              className={this.feedClassName('yourfeed')}
-              onClick={() => {
-                DelArticles()
-                UpdateArticlesApi('yourfeed')
-              }}
-              value="Your Feed"
-            />
-          </NavLink>
-        </li>
-
+      <>
+      {this.props.token ? yourfeed : null}
         <li className="nav-item">
           <NavLink to="/home/globalfeed/1">
             <input
               type="button"
               className={this.feedClassName('globalfeed')}
-              onClick={() => {
-                DelArticles()
-                UpdateArticlesApi('globalfeed')
-              }}
               value="Global Feed"
             />
           </NavLink>
         </li>
-        {innerTag}
-      </ul>
+      </>
     )
 
     const profileFeed = (
-      <ul className="nav nav-pills">
+      <>
         <li className="nav-item">
+        <NavLink to={`/profile/${userName}/mypost/1`}>
           <input
             type="button"
             className={this.feedClassName('mypost')}
-            onClick={() => {
-              DelArticles()
-              UpdateArticlesApi('mypost')
-            }}
             value="My Post"
           />
+          </NavLink>
         </li>
         <li className="nav-item">
+        <NavLink to={`/profile/${userName}/favor/1`}>
           <input
             type="button"
             className={this.feedClassName('favor')}
-            onClick={() => {
-              DelArticles()
-              UpdateArticlesApi('favor')
-            }}
             value="Favorited Post"
           />
+          </NavLink>
         </li>
-        {innerTag}
-      </ul>
+      </>
     )
+
     const homeOrProfileFeed =
-      params.feed === 'mypost' || params.feed === 'favor'
+      feed === 'mypost' || feed === 'favor'
         ? profileFeed
         : homeFeed
 
-    return <Fragment>{homeOrProfileFeed}</Fragment>
+    return (
+      <ul className="nav nav-pills">
+        {homeOrProfileFeed}
+        {innerTag()}
+      </ul>
+      )
   }
 }
 

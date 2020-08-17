@@ -1,0 +1,10 @@
+.regAlertRed {
+    text-align: center;
+    transition: all 1s ease-out;
+    color: brown;
+}
+.regAlertGreen {
+    text-align: center;
+    transition: all 1s ease-out;
+    color: rgb(51, 148, 95);
+}

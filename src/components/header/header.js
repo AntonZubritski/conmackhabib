@@ -9,6 +9,8 @@ class Header extends Component {
     const { username, image } = this.props.user
     const hrefUser = `/profile/${username}/mypost/1`
     const homeLink = `/home/globalfeed/1`
+    const dfaultImg =
+      'https://static.productionready.io/images/smiley-cyrus.jpg'
 
     const registr = (
       <Fragment>
@@ -43,7 +45,11 @@ class Header extends Component {
         </li>
         <li className="nav-item">
           <NavLink className="nav-link" to={hrefUser}>
-            <img className="user-pic" src={image} alt="avatar" />
+            <img
+              className="user-pic"
+              src={image === null ? dfaultImg : image}
+              alt="avatar"
+            />
             {username}
           </NavLink>
         </li>

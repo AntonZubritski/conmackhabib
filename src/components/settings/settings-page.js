@@ -28,7 +28,7 @@ class SettingsPage extends Component {
 
   render() {
     const { email, image, username, bio } = this.props.infoUserState
-    const { deleteUserInfo } = this.props
+    const { deleteUserInfo, idHistory } = this.props
     const bioUser = bio !== null ? bio : ''
 
     return (
@@ -114,7 +114,7 @@ class SettingsPage extends Component {
                 value="Or click here to logout."
                 type="button"
                 onClick={() => {
-                  this.props.idHistory('globalfeed', 1)
+                  idHistory('globalfeed', 1)
                   deleteUserInfo()
                 }}
               />

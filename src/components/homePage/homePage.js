@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Pagination from '../pagination'
 import Row from '../row'
 import Tags from '../tags'
@@ -13,35 +13,34 @@ class HomePage extends Component {
     const {
       idHistory,
       articles,
-      articlesApi,
       UpdateArticlesAsync,
-      UpdateArticlesApi,
       checkLog,
+      idHistoryProfile
     } = this.props
 
     const content = articles ? <RenderArticles {...this.props} /> : <Spinner />
 
     const left = (
-      <Fragment>
+      <>
         <LineFeed
-          articlesApi={articlesApi}
           UpdateArticlesAsync={UpdateArticlesAsync}
-          UpdateArticlesApi={UpdateArticlesApi}
           DelArticles={this.props.DelArticles}
+          token = {this.props.token}
           checkLog={checkLog}
           params={this.props.params}
         />
         {content}
         <Pagination
           idHistory={idHistory}
+          idHistoryProfile={idHistoryProfile}
           params={this.props.params}
-          articlesApi={this.props.articlesApi}
           articlesCount={this.props.articlesCount}
-          idPagination={this.props.idPagination}
         />
-      </Fragment>
+      </>
     )
-    const right = <Tags />
+    const right = <Tags 
+      idHistory={idHistory}
+    />
 
     return <Row left={left} right={right} />
   }
@@ -49,10 +48,9 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return {
     articles: state.homePage.articles.articles,
-    articlesApi: state.homePage.articlesApi,
     articlesCount: state.homePage.articles.articlesCount,
     checkLog: state.registerPage.checkLog,
-    idPagination: state.homePage.idPagination,
+    token: state.registerPage.token,
   }
 }
 
@@ -63,10 +61,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.UpdateArticlesAsync(tag, id)),
     SetUserFavorite: (userId, paginationId, tag, favorited) =>
       dispatch(actions.SetUserFavorite(userId, paginationId, tag, favorited)),
-    GetProfileInfo: (username) => dispatch(actions.GetProfileInfo(username)),
-    UpdateArticlesApi: (articlesApi) => {
-      dispatch(actions.UpdateArticlesApi(articlesApi))
-    },
+    GetProfileInfo: (username) => dispatch(actions.GetProfileInfo(username))
   }
 }
 

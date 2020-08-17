@@ -31,8 +31,8 @@ class App extends Component {
 
     return (
       <BrowserRouter>
+      <ErrorBoundary>
         <Switch>
-          <ErrorBoundary>
             <Route path="/home/:feed?/:id?" component={Home} />
             <Route path="/login" component={LogInPage} exact />
             <Route path="/signup" component={SignUpPage} exact />
@@ -40,9 +40,9 @@ class App extends Component {
             <Route path="/settings" component={Settings} exact />
             <Route path="/profile/:userName?/:feed?/:id?" component={Profile} />
             <Route path="/readmore/:idArticle" component={ReadMore} exact />
-            <Redirect path="/" to="/home" />
-          </ErrorBoundary>
+            <Redirect path="/" to="/home/globalfeed/1" />
         </Switch>
+      </ErrorBoundary>
       </BrowserRouter>
     )
   }
@@ -56,8 +56,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateLogToken: () => dispatch(actions.UpdateLogToken()),
-    UpdateArticlesAsync: () => dispatch(actions.UpdateArticlesAsync()),
+    UpdateLogToken: () => dispatch(actions.UpdateLogToken())
   }
 }
 

@@ -11,6 +11,12 @@ import * as actions from '../../redux/actions'
 class ProfilePage extends Component {
   api = new ApiServices()
 
+  componentDidUpdate(prevProps) {
+    const { userName } = this.props.params
+    if (prevProps.params.userName !== this.props.params.userName) {
+      this.props.GetProfileInfo(userName)
+    }
+  }
   componentDidMount() {
     const { userName } = this.props.params
     this.props.GetProfileInfo(userName)
@@ -18,13 +24,13 @@ class ProfilePage extends Component {
 
   render() {
     const { userName } = this.props.params
+    const { articles, UpdateArticlesApi } = this.props
+    const { username, bio, image, following } = this.props.profile
 
     const follow = (
       <button
         className="btn btn-sm action-btn btn-secondary"
-        onClick={() =>
-          this.props.GetProfileInfo(userName, this.props.profile.following)
-        }
+        onClick={() => this.props.GetProfileInfo(userName, following)}
       >
         <i className="fa fa-plus-circle" />
         {` Follow ${userName}`}
@@ -33,20 +39,15 @@ class ProfilePage extends Component {
     const unFollow = (
       <button
         className="btn btn-sm btn-secondary action-btn"
-        onClick={() =>
-          this.props.GetProfileInfo(userName, this.props.profile.following)
-        }
+        onClick={() => this.props.GetProfileInfo(userName, following)}
       >
         <i className="fa fa-plus-circle" />
         {` Unfollow ${userName}`}
       </button>
     )
 
-    const { articles, UpdateArticlesApi } = this.props
-    const { username, bio, image, following } = this.props.profile
     const content = !articles ? <Spinner /> : <RenderArticles {...this.props} />
     const followInner = following ? unFollow : follow
-
     const profileInfo = (
       <div className="container">
         <div className="row">
@@ -54,7 +55,7 @@ class ProfilePage extends Component {
             <img className="user-img" src={image} alt="avatar" />
             <h4>{username}</h4>
             <p>{bio}</p>
-            {followInner}
+            {this.props.token ? followInner : null}
           </div>
         </div>
       </div>
@@ -69,7 +70,6 @@ class ProfilePage extends Component {
             <div className="row">
               <div className="col-xs-12 col-md-10 offset-md-1">
                 <LineFeed
-                  articlesApi={this.props.articlesApi}
                   UpdateArticlesAsync={this.props.UpdateArticlesAsync}
                   checkLog={this.props.checkLog}
                   idHistory={this.props.historyProfile}
@@ -86,10 +86,9 @@ class ProfilePage extends Component {
                 <nav>
                   <Pagination
                     idHistory={this.props.historyProfile}
+                    idHistoryProfile={this.props.idHistoryProfile}
                     params={this.props.params}
-                    articlesApi={this.props.articlesApi}
                     articlesCount={this.props.articlesCount}
-                    idPagination={this.props.idPagination}
                   />
                 </nav>
               </div>
@@ -103,11 +102,9 @@ class ProfilePage extends Component {
 const mapStateToProps = (state) => {
   return {
     articles: state.homePage.articles.articles,
-    articlesApi: state.homePage.articlesApi,
     articlesCount: state.homePage.articles.articlesCount,
     profile: state.profilePage.article.author,
     checkLog: state.registerPage.checkLog,
-    idPagination: state.homePage.idPagination,
   }
 }
 
@@ -122,9 +119,6 @@ const mapDispatchToProps = (dispatch) => {
       ),
     UpdateArticlesAsync: (tag, id, username) =>
       dispatch(actions.UpdateArticlesAsync(tag, id, username)),
-    UpdateArticlesApi: (articlesApi) => {
-      dispatch(actions.UpdateArticlesApi(articlesApi))
-    },
   }
 }
 

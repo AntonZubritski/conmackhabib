@@ -1,74 +1,93 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import './registration.css'
 
 class SignUp extends Component {
+  submitSignUp = async (e) => {
+    const { logRegUser } = this.props
+    await logRegUser(e)
+  }
+
   render() {
+    const { changeAuth, username, email, password, errorReg } = this.props
+
     return (
-      <div>
+      <>
         <h1 className="text-xs-center">Sign up</h1>
         <p className="text-xs-center">
           <NavLink to="/login">Have an account?</NavLink>
         </p>
         <ul className="error-messages"></ul>
-        <form className="ng-untouched ng-pristine ng-invalid">
+        <form
+          className="ng-untouched ng-pristine ng-invalid"
+          name="registration"
+          onSubmit={this.submitSignUp}
+        >
           <input
             className="form-control form-control-lg ng-untouched ng-pristine ng-valid"
             placeholder="Username"
             type="text"
-            onChange={this.props.changeAuth}
+            onChange={changeAuth}
             name={'username'}
-            value={this.props.username}
-          ></input>
+            value={username}
+            required
+          />
           <input
             className="form-control form-control-lg ng-untouched ng-pristine ng-invalid"
             placeholder="Email"
             type="email"
-            onChange={this.props.changeAuth}
+            onChange={changeAuth}
             name={'email'}
-            value={this.props.email}
-          ></input>
+            value={email}
+            required
+          />
           <input
             className="form-control form-control-lg ng-untouched ng-pristine ng-invalid"
             placeholder="Password"
             type="password"
-            onChange={this.props.changeAuth}
+            onChange={changeAuth}
             name={'password'}
-            value={this.props.password}
-          ></input>
-        </form>
-        <NavLink to="/settings">
-          <button
+            value={password}
+            required
+          />
+          <p className="regAlert">{errorReg ? errorReg : null}</p>
+          <hr />
+          <input
             className="btn btn-lg btn-primary pull-xs-right"
-            name="registration"
-            onClick={this.props.logRegUser}
-          >
-            Sign up
-          </button>
-        </NavLink>
-      </div>
+            value="Sign up"
+            type="submit"
+          />
+        </form>
+      </>
     )
   }
 }
 
 class LogIn extends Component {
   render() {
+    const { errorReg } = this.props
     return (
-      <div>
+      <>
         <h1 className="text-xs-center">Sign in</h1>
         <p className="text-xs-center">
           <NavLink to="/signup">Need an account?</NavLink>
         </p>
         <ul className="error-messages"></ul>
-        <form className="ng-untouched ng-pristine ng-invalid">
+        <form
+          className="ng-untouched ng-pristine ng-invalid"
+          onSubmit={this.props.logRegUser}
+          name="login"
+        >
           <input
             className="form-control form-control-lg ng-untouched ng-pristine ng-invalid"
             formcontrolname="email"
             placeholder="Email"
             onChange={this.props.changeAuth}
-            name={'email'}
+            name="email"
             value={this.props.email}
             type="email"
-          ></input>
+            required
+          />
           <input
             className="form-control form-control-lg ng-untouched ng-pristine ng-invalid"
             formcontrolname="password"
@@ -77,18 +96,23 @@ class LogIn extends Component {
             name={'password'}
             value={this.props.password}
             type="password"
-          ></input>
-        </form>
-        <NavLink to="/settings">
-          <button
-            className="btn btn-lg btn-primary pull-xs-right"
-            name="login"
-            onClick={this.props.logRegUser}
+            required
+          />
+          <p
+            className={
+              errorReg === 'Конгратилатион' ? 'regAlertGreen' : 'regAlertRed'
+            }
           >
-            Sign in
-          </button>
-        </NavLink>
-      </div>
+            {errorReg ? errorReg : null}
+          </p>
+          <hr />
+          <input
+            type="submit"
+            className="btn btn-lg btn-primary pull-xs-right"
+            value="Sign in"
+          />
+        </form>
+      </>
     )
   }
 }

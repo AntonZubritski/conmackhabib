@@ -7,7 +7,8 @@ const initialStateRegister = {
   password: '',
   username: '',
   bio: '',
-  image: '',
+  image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
+  token: false,
 }
 
 const initialStateHome = {
@@ -15,17 +16,17 @@ const initialStateHome = {
     articles: null,
     articlesCount: null,
   },
-  articlesApi: 'globalfeed',
+
   tags: false,
-  idPagination: '1',
   error: null,
+  errorReg: false,
 }
 
 const initialStateProfile = {
   profile: {
     username: null,
     bio: null,
-    image: null,
+    image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
     folowing: null,
   },
   article: {
@@ -69,6 +70,7 @@ const registerReducer = (state = initialStateRegister, action) => {
         token: action.payload.user.token,
         checkLog: true,
       }
+      
     default:
       return state
   }
@@ -77,20 +79,22 @@ const registerReducer = (state = initialStateRegister, action) => {
 const homeReducer = (state = initialStateHome, action) => {
   switch (action.type) {
     case constants.UPDATE_ARTICLES:
-      return { ...state, articles: action.payload, articlesApi: action.text }
+      return { ...state, articles: action.payload }
     case constants.DELETE_ARTICLES:
       return {
         ...state,
         articles: { ...state.aricles, articles: null, articlesCount: null },
       }
-    case constants.UPDATE_ARTICLES_API:
-      return { ...state, articlesApi: action.payload }
-    case constants.UPDATE_ID_PAGINATION:
-      return { ...state, idPagination: action.payload }
     case constants.SET_TAGS:
       return { ...state, tags: action.payload }
     case constants.ADD_ARTICLES_ERROR:
       return { ...state, error: action.payload }
+    case constants.REGISTER_ERROR:
+      return { ...state, errorReg: 'поменяйте что-нибудь и будет счастье' }
+    case constants.SET_AUTH:
+      return { ...state, errorReg: false }
+    case constants.SAVE_USER_INFO:
+        return { ...state, errorReg: 'Конгратилатион' }
     case constants.CLEAN_ERROR:
       return { ...state, error: null }
 

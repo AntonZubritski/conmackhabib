@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 class RenderArticles extends Component {
   render() {
-    const { articles, SetUserFavorite, idPagination, articlesApi } = this.props
+    const { articles, SetUserFavorite, token} = this.props
 
     const articlesList = articles.map((item, key) => {
       const {
@@ -19,6 +19,7 @@ class RenderArticles extends Component {
         favoritesCount,
         userId,
       } = item
+      const { feed } = this.props.params
       const classFavorButt = favorited
         ? 'btn btn-sm btn-outline-primary active'
         : 'btn btn-sm btn-outline-primary'
@@ -27,7 +28,7 @@ class RenderArticles extends Component {
         if (tag !== undefined) {
           return tag.map((tag, key) => {
             return (
-              <NavLink to={`/home/${tag}`} key={key}>
+              <NavLink to={`/home/${tag}/1`} key={key}>
                 <input
                   className="tag-default tag-pill tag-outline
                     ng-binding ng-scope"
@@ -48,7 +49,6 @@ class RenderArticles extends Component {
             <div className="info">
               <NavLink
                 to={`/profile/${userName}/mypost/1`}
-                onClick={() => this.props.UpdateArticlesApi('mypost')}
                 className="author ng-binding"
               >
                 {userName}
@@ -59,13 +59,14 @@ class RenderArticles extends Component {
             <button
               className={classFavorButt}
               onClick={() =>
+                token ? 
                 SetUserFavorite(
                   userId,
-                  idPagination,
-                  articlesApi,
+                  1,
+                  feed,
                   favorited,
                   userName
-                )
+                ) : null
               }
             >
               <i className="fa fa-heart"></i>

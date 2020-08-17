@@ -3,34 +3,38 @@ import * as actions from '../../redux/actions'
 import Header from '../header'
 import Footer from '../footer'
 import Banner from '../banner'
-import ApiServices from '../../services/api-services'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 const withRegistrationHoc = (View) => {
   return class extends Component {
-    api = new ApiServices()
+    historyPush = (feed, id) => {
+      this.props.history.push(`/home/${feed}/${id}`)
+    }
 
-    logRegUser = async (e) => {
-      const { UpdateLogRegInfo, username, email, password } = this.props
+    logRegUser = (e) => {
+      const { UpdateLogRegInfo } = this.props
+      const { username, email, password } = this.props.registerPage
       const objUser = {
         user: {
           email: email,
           password: password,
           username: username,
-        },
+        }
       }
-
+      e.preventDefault()
       if (e.target.name === 'login') {
         UpdateLogRegInfo(objUser, 'login')
       } else if (e.target.name === 'registration') {
-        UpdateLogRegInfo(objUser)
+        UpdateLogRegInfo(objUser, '')
       }
+      return true
     }
+
     changeAuth = (e) => this.props.onChangeAuth(e.target.name, e.target.value)
 
     render() {
-      const { username, email, password } = this.props
+      const { username, email, password } = this.props.registerPage
 
       return (
         <Fragment>
@@ -38,13 +42,15 @@ const withRegistrationHoc = (View) => {
           <div className="auth-page">
             <div className="container page">
               <div className="row">
-                <div className="col-md-6 offset-md-3 col-xs-12">
+                <div className="col-md-6 col-xs-12">
                   <View
                     username={username}
                     email={email}
                     password={password}
                     logRegUser={this.logRegUser}
                     changeAuth={this.changeAuth}
+                    historyPush={this.historyPush}
+                    errorReg={this.props.errorReg}
                   />
                 </div>
               </div>
@@ -59,13 +65,21 @@ const withRegistrationHoc = (View) => {
 const withHomeHoc = (View) => {
   return class extends Component {
     componentDidMount = () => {
-      const { feed, id, userName } = this.props.match.params
-      this.props.UpdateArticlesAsync(feed, id, userName)
+      const { feed, id, userName } = this.props.match.params      
+      let paramsId = id
+      if (id === undefined) {
+        paramsId = 1
+      }
+      this.props.UpdateArticlesAsync(feed, paramsId, userName)
     }
 
     componentDidUpdate = (prevProps) => {
       const { match } = this.props
-      if (prevProps.match.params.feed !== match.params.feed) {
+      if (
+        prevProps.match.params.feed !== match.params.feed ||
+        prevProps.match.params.id !== match.params.id
+      ) {
+        this.props.DelArticles()
         this.props.UpdateArticlesAsync(
           match.params.feed,
           match.params.id,
@@ -73,26 +87,26 @@ const withHomeHoc = (View) => {
         )
       }
     }
+    historyPush = (feed, id) => {
+      this.props.history.push(`/home/${feed}/${id}`)
+    }
+    historyPushProfile = (userName, feed, id) => {
+      this.props.history.push(`/profile/${userName}/${feed}/${id}`)
+    }
 
     render() {
-      const historyPush = (feed, id) => {
-        this.props.history.push(`/home/${feed}/${id}`)
-      }
-      const historyPushProfile = (userName, feed, id) => {
-        this.props.history.push(`/profile/${userName}/${feed}/${id}`)
-      }
-
       return (
-        <div>
+        <>
           <Header />
           <Banner />
           <View
-            idHistory={historyPush}
-            historyProfile={historyPushProfile}
+            idHistory={this.historyPush}
+            idHistoryProfile={this.historyPushProfile}
             params={this.props.match.params}
+            token={this.props.token}
           />
           <Footer />
-        </div>
+        </>
       )
     }
   }
@@ -112,19 +126,20 @@ const withSettAndArticHoc = (View) => {
       this.props.history.push(`/home/${feed}/${id}`)
     }
     setTags = () => {
-      const { tagList } = this.props.article
-      const { tag } = this.props
+      const { tagList } = this.props.profilePage.article
+      const { tag } = this.props.profilePage
       const newArray = tagList.concat()
       newArray.push(tag)
       this.props.setTag(newArray)
     }
 
     handleSubmit = (e) => {
+      debugger
       e.preventDefault()
-      const { slug } = this.props.article
-      const { edit } = this.props
+      const { slug } = this.props.profilePage.article
+      const { edit } = this.props.profilePage
       const objArticle = {
-        article: { ...this.props.article },
+        article: { ...this.props.profilePage.article },
       }
       if (edit) {
         this.props.PutEditArticle(objArticle, slug)
@@ -155,12 +170,10 @@ const withSettAndArticHoc = (View) => {
 
 const mapStateToProps = (state) => {
   return {
-    email: state.registerPage.email,
-    password: state.registerPage.password,
-    username: state.registerPage.username,
-    article: state.profilePage.article,
-    edit: state.profilePage.edit,
-    tag: state.profilePage.tag,
+    registerPage: state.registerPage,
+    profilePage: state.profilePage,
+    errorReg: state.homePage.errorReg,
+    token: state.registerPage.token,
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -172,7 +185,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.SetPostArticle(name, value)),
     UpdateLogRegInfo: (value, url) =>
       dispatch(actions.UpdateLogRegInfo(value, url)),
-    UpdateIdPagination: (id) => dispatch(actions.UpdateIdPagination(id)),
     UpdateArticlesAsync: (tag, id, username) =>
       dispatch(actions.UpdateArticlesAsync(tag, id, username)),
     PostNewArticle: (objArticlesInfo) =>
@@ -180,6 +192,7 @@ const mapDispatchToProps = (dispatch) => {
     PutEditArticle: (objArticlesInfo, slug) =>
       dispatch(actions.PutEditArticle(objArticlesInfo, slug)),
     setTag: (tag) => dispatch(actions.SetTag(tag)),
+    DelArticles: () => dispatch(actions.DelArticles()),
   }
 }
 

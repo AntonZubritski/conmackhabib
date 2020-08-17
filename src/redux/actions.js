@@ -1,7 +1,6 @@
 import {
   SAVE_USER_INFO,
   UPDATE_ARTICLES,
-  UPDATE_ID_PAGINATION,
   ADD_ARTICLES_ERROR,
   SET_TAGS,
   SET_AUTH,
@@ -19,6 +18,7 @@ import {
   SET_AUTH_TAG,
   CLEAN_FORM_NEW_ARTICLE,
   CLEAN_ERROR,
+  REGISTER_ERROR
 } from './constants'
 
 import ApiArticles from '../services/api-services'
@@ -26,7 +26,7 @@ const api = new ApiArticles()
 
 //REFRESH-GET ARTICLES
 export const UpdateArticlesAsync = (
-  tag = 'globalfeed',
+  tag,
   paginationId = 1,
   username
 ) => {
@@ -34,8 +34,7 @@ export const UpdateArticlesAsync = (
     api.fetchApi
       .getArticles(tag, paginationId, username)
       .then((articles) => {
-        dispatch(UpdateArticles(articles, tag))
-        dispatch(UpdateIdPagination(paginationId))
+        dispatch(UpdateArticles(articles))
       })
       .catch((err) => {
         dispatch(AddArticlesErr(err.message))
@@ -67,8 +66,8 @@ export const UpdateLogRegInfo = (userInfo, logUrl) => {
         localStorage.setItem('jwt', recievedInfo.user.token)
         api.setToken(recievedInfo.user.token)
       })
-      .catch((err) => {
-        dispatch(AddArticlesErr(err.message))
+      .catch(() => {
+        dispatch(AddRegErr())
       })
   }
 }
@@ -117,7 +116,7 @@ export const SetUserFavorite = (
         api.fetchApi
           .getArticles(tag, paginationId, username)
           .then((articles) => {
-            dispatch(UpdateArticles(articles, tag))
+            dispatch(UpdateArticles(articles))
           })
       })
       .catch((err) => {
@@ -262,15 +261,17 @@ export const SetPostArticle = (name, payload) => ({
   payload,
   name,
 })
-export const SaveUserInfo = (payload) => ({ type: SAVE_USER_INFO, payload })
+export const SaveUserInfo = (payload) => ({ 
+  type: SAVE_USER_INFO, 
+  payload 
+})
 export const SaveUserProfile = (payload) => ({
   type: SAVE_USER_PROFILE,
   payload,
 })
-export const UpdateArticles = (payload, tag) => ({
+export const UpdateArticles = (payload) => ({
   type: UPDATE_ARTICLES,
-  payload,
-  text: tag,
+  payload
 })
 export const UpdateArticlesApi = (payload) => ({
   type: UPDATE_ARTICLES_API,
@@ -280,10 +281,10 @@ export const AddArticlesErr = (payload) => ({
   type: ADD_ARTICLES_ERROR,
   payload,
 })
-export const UpdateIdPagination = (payload) => ({
-  type: UPDATE_ID_PAGINATION,
-  payload,
+export const AddRegErr = () => ({
+  type: REGISTER_ERROR,
 })
+
 export const SetTags = (payload) => ({ type: SET_TAGS, payload })
 export const UpdateFieldAuth = (name, payload) => ({
   type: SET_AUTH,

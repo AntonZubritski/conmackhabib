@@ -9,7 +9,7 @@ class Tags extends Component {
   }
 
   renderTags = () => {
-    const { tags, UpdateArticlesApi, DelArticles } = this.props
+    const { tags } = this.props
 
     return tags.map((tag, key) => {
       const bounce = `tag-default tag-pill bounceInRight${key + 1}`
@@ -21,8 +21,9 @@ class Tags extends Component {
             type="button"
             className={bounce}
             onClick={() => {
-              DelArticles()
-              UpdateArticlesApi(tag)
+              // DelArticles()
+              // UpdateArticlesApi(tag)
+              this.props.idHistory(tag, 1)
             }}
             key={key}
             value={tag}
@@ -52,9 +53,6 @@ const MapStateToProps = (state) => {
 const MapDispatchToProps = (dispatch) => {
   return {
     GetTagsApi: () => dispatch(actions.GetTagsApi()),
-    UpdateArticlesAsync: (tag) => dispatch(actions.UpdateArticlesAsync(tag)),
-    UpdateArticlesApi: (articlesApi) =>
-      dispatch(actions.UpdateArticlesApi(articlesApi)),
     DelArticles: () => dispatch(actions.DelArticles()),
   }
 }
